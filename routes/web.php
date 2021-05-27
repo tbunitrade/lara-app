@@ -1,5 +1,5 @@
 <?php
-
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-    //return 'hello world';
-    //return ['foo' => 'bar'];
-    //return ['foo' => ['bar','bar2']];
 });
 
 Route::get('/posts', function () {
@@ -27,34 +24,22 @@ Route::get('/posts', function () {
 Route::get('posts/{post}', function ($slug) {
     //comments// Find a post by its slug and pass it to a view called "post"
 
-    //return $slug;
-//Route::get('/post', function () {
-    //$post = file_get_contents(__DIR__ . '/../resources/posts/my-first-post.html' );
-    //$post = file_get_contents(__DIR__ . "/../resources/posts/{$slug}.html" );
-    //$path = __DIR__ . "/../resources/posts/{$slug}.html" ;
+    $post = Post::find($slug);
 
-    //ddd($path);
-    if (!file_exists($path = __DIR__ . "/../resources/posts/{$slug}.html"))
-    {
-        //dd('file dos not exist');
-        //ddd('file dos not exist');
-        //abort(404);
-        return redirect('/posts');
-
-    }
-
-     $post = cache()->remember("posts.{$slug}", now()->addMiinutes(40), function() use ($path){
-         var_dump('file_get_contents');
-         return file_get_contents($path);
-     } );
-    //$post = cache()->remember("posts.{$slug}", 1200, fn() => file_get_contents($path));
-    //$post = file_get_contents($path);
-
-    return view('post', [
-        //'post' => '<h1>Hello world</h1>'
-        //'post' => file_get_contents(__DIR__ . '/../resources/posts/my-first-post.html' )
+    return view('post',[
         'post' => $post
     ]);
+//    if (!file_exists($path = __DIR__ . "/../resources/posts/{$slug}.html"))
+//    {
+//        return redirect('/posts');
+//    }
+//
+//    $post = cache()->remember("posts.{$slug}", 1200, fn() => file_get_contents($path));
+//
+//    return view('post', [
+//        'post' => $post
+//    ]);
+
 })->where('post','[A-z_\-]+');
-//})->whereAlpha('post');
+
 
