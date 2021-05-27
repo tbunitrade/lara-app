@@ -1,0 +1,14 @@
+{
+    "gotoSymbolStack.currentStackPosition": 1,
+    "gotoSymbolStack.maxStackPosition": 1,
+    "gotoSymbolStack.filePositionInfo": [
+        {
+            "textFile": "c:\\openserver\\OpenServer\\domains\\lara-blog\\myapp\\routes\\web.php",
+            "viewColumn": 2,
+            "textPosition": {
+                "line": 51,
+                "character": 14
+            }
+        }
+    ]
+}
