@@ -29,16 +29,7 @@ Route::get('posts/{post}', function ($slug) {
     return view('post',[
         'post' => $post
     ]);
-//    if (!file_exists($path = __DIR__ . "/../resources/posts/{$slug}.html"))
-//    {
-//        return redirect('/posts');
-//    }
-//
-//    $post = cache()->remember("posts.{$slug}", 1200, fn() => file_get_contents($path));
-//
-//    return view('post', [
-//        'post' => $post
-//    ]);
+
 
 })->where('post','[A-z_\-]+');
 
