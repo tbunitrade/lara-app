@@ -19,15 +19,17 @@ Route::get('/', function () {
 
 Route::get('/posts', function () {
     return view('posts');
+    
 });
 
-Route::get('posts/{post}', function ($slug) {
-    //comments// Find a post by its slug and pass it to a view called "post"
+Route::get('/find', function () {    
+    return Post::find('my-first-post');
+});
 
-    $post = Post::find($slug);
+Route::get('posts/{post}', function ($slug) {    
 
     return view('post',[
-        'post' => $post
+        'post' => Post::find($slug)
     ]);
 
 
