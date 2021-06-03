@@ -14,24 +14,42 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 |
 */
 
+//Route::get('/', function () {
+    //return view('welcome');
+//});
+
 Route::get('/', function () {
-    return view('welcome');
-});
+    $files = File::files(resource_path("posts"));
 
-Route::get('/posts', function () {
+    $posts = collect($files)
+        ->map(function($file){
+            $document = YamlFrontMatter::parseFile($file);
 
-    $document = YamlFrontMatter::parseFile(
-        resource_path('posts/my-fourth-post.html')
-    );
+            return new Post(
+                $document->title,
+                $document->excerpt,
+                $document->date,
+                $document->body(),
+                $document->slug
+            );
+        });
 
-    ddd($document);
+//    $posts = array_map( function($file) {
+//        $document = YamlFrontMatter::parseFile($file);
+//
+//        return new Post(
+//            $document->title,
+//            $document->excerpt,
+//            $document->date,
+//            $document->body(),
+//            $document->slug
+//        );
+//
+//    }, $files);
 
-    //$posts = Post::all();
-    //ddd($posts);
-
-//    return view('posts', [
-//        'posts' => Post::all()
-//    ]);
+    return view('posts', [
+        'posts' => $posts
+    ]);
 
 });
 
