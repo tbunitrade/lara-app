@@ -25,28 +25,34 @@ class Post
         $this->slug = $slug;
     }
 
-    public static function all(){
-        return collect(File::files(resource_path("posts")))
-            ->map(fn($file) => YamlFrontMatter::parseFile($file))
-            ->map(fn($document) => new Post(
-                $document->title,
-                $document->excerpt,
-                $document->date,
-                $document->body(),
-                $document->slug
-            ));
-//        $files = File::files(resource_path("posts"));
-//
-//        return array_map(fn($file) =>$file->getContents(), $files);
+    public static function all()
+    {
+        return cache()->rememberForever('posts.all', function(){
+            return collect(File::files(resource_path("posts")))
+                ->map(fn($file) => YamlFrontMatter::parseFile($file))
+                ->map(fn($document) => new Post(
+                    $document->title,
+                    $document->excerpt,
+                    $document->date,
+                    $document->body(),
+                    $document->slug
+                ))
+                ->sortByDesc('date');
+        });
+
     }
 
     public static function find($slug)
     {
-        if (!file_exists($path = resource_path("/posts/{$slug}.html")))  {
-            throw new ModelNotFoundException();
-        }
+        // of all blog posts, find matches the one that was requested
 
-        return  cache()->remember("posts.{$slug}", 1200, fn() => file_get_contents($path));
+//        $posts = static::all();
+//
+//        $posts->firstWhere('slug',$slug);
+//        //ddd($posts);
+//        ddd($posts->firstWhere('slug',$slug));
+
+        return static::all()->firstWhere('slug',$slug);
     }
 
 

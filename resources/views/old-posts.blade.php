@@ -1,9 +1,15 @@
-@extends('layout')
 
-@section('content')
+@include('header')
+<div id="content">
+    @if(true)
+    @endif
 
-
+    @unless(1)
+        222 endunless
+    @endunless
     @foreach ($posts as $post)
+{{--        {{dd($loop)}}--}}
+{{--        @dd($loop)--}}
     <article class="{{$loop->even ? 'md-6' : 'md-8'}}">
        <h3>
            (((
@@ -25,4 +31,6 @@
         </div>
     </article>
     @endforeach
-@endsection
+    @yield('content')
+</div>
+@include('footer')
